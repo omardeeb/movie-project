@@ -58,8 +58,8 @@ const renderMovies = (movies) => {
 const renderMovie = (movie) => {
   CONTAINER.innerHTML = `
     <div class="row">
-        <div class="col-md-4">
-             <img id="movie-backdrop" src=${
+        <div>
+             <img id="movie-backdrop" class= "grid-cols-3" src=$ {
                BACKDROP_BASE_URL + movie.backdrop_path
              }>
         </div>

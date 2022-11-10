@@ -6,6 +6,97 @@
     padding-top: 32px;
 }
 
+footer {
+    background-color: #212121;
+}
+
+.heading {
+    color:#fdce00;
+    text-align: center;
+    padding:10px;
+}
+.container1{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card{
+    height: 350px;
+    max-width: 400px;
+    margin: 0 20px;
+    box-shadow: 2px 2px 5px rgba (0, 0, 0, 0.2);
+    background-color:#212120 ;
+    border-radius: 5%;
+    outline: none;
+
+}
+
+.card:hover {
+    height:400px;
+    transition: 0.5s;
+}
+
+.card .img{
+    height: 200px;
+    width: 100%;
+}
+
+.card .img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+.card .top-text{
+    padding: 5px;
+    text-align: center;
+    
+
+
+}
+
+.card .top-text p{
+    color:#efefef;
+    text-align: center;
+    font-weight:500;
+
+}
+
+.card .top-text .name{
+    font-size: 25px;
+    font-weight: 600;
+    color: #fdce00;
+    
+    
+}
+
+.socials a{
+    align-items: center;
+    justify-content:space-between;
+    font-size: x-large;
+    color: #fdce00;
+    
+}
+.socials a:hover {
+    color:#efefef;
+}
+
+@media screen and (max-width:978px){
+    .container1{
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .card{
+        max-width: 700px;
+        margin: 20px 0;
+        
+    }
+}
+
 #actors {
+
     margin: 24px 16px 0 0;
 }
