@@ -1,0 +1,23 @@
+{
+  "name": "movie-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omardeeb/movie-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omardeeb/movie-project/issues"
+  },
+  "homepage": "https://github.com/omardeeb/movie-project#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.2.3"
+  }
+}
