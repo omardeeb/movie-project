@@ -6,11 +6,56 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
     <title>Movie</title>
 </head>
 
 <body>
+    <div class="menu-bar">
+        <h1 class="logo">imdb<span>Movies.</span></h1>
+        <i class="fas fa-bars toggle-menu"></i>
+        <ul class="nav">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Movies <i class="fas fa-caret-down"></i></a>
+  
+              <div class="dropdown-menu">
+                  <ul>
+                    <li><a href="#" id="action">Action</a></li>
+                    <li><a href="#" id="comedy">Comedy</a></li>
+                    <li>
+                      <a href="#" id="sci">Sci-Fi </a>
+                    </li>
+                    <li><a href="#" id="romance">Romance</a>
+                    </li>
+                  </ul>
+                </div>
+          </li>
+          <li><a href="#">Actors</a>
+          </li>
+          <li><a href="#">Filter<i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-menu">
+                <ul>
+                  <li><a href="#" id="popular">popular</a></li>
+                  <li><a href="#" id="relase">now Playing</a></li>
+                  <li>
+                    <a href="#" id="rated">top rated </a>
+                  </li>
+                  <li><a href="#" id="upcoming">up coming</a>
+                  </li>
+                </ul>
+              </div>
+            </ul>
+        </li>
+        <div class="search-container">
+            <form action="/action_page.php">
+              <input id="search" type="text" placeholder="Search.." name="search">
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+      </div>
     <div class="container">
+        
     </div>
     <script type="text/javascript" src="script.js"></script>
 </body>

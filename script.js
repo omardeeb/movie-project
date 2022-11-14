@@ -4,6 +4,7 @@ const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const PROFILE_BASE_URL = "http://image.tmdb.org/t/p/w185";
 const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
 const CONTAINER = document.querySelector(".container");
+const search = document.getElementById('search')
 
 // Don't touch this function please
 const autorun = async () => {
@@ -23,6 +24,75 @@ const movieDetails = async (movie) => {
   const movieRes = await fetchMovie(movie.id);
   renderMovie(movieRes);
 };
+
+const fetchpopuler = async ()=>{
+  const url = constructUrl(`movie/popular`);
+  const res = await fetch(url);
+  const popdata = await res.json();
+  CONTAINER.innerHTML= "";
+  renderMovies(popdata.results)
+}
+const fetchnowplay = async ()=>{
+  const url = constructUrl(`movie/now_playing`);
+  const res = await fetch(url);
+  const popdata = await res.json();
+  CONTAINER.innerHTML= "";
+  renderMovies(popdata.results)
+}
+const fetchrated = async ()=>{
+  const url = constructUrl(`movie/top_rated`);
+  const res = await fetch(url);
+  const popdata = await res.json();
+  CONTAINER.innerHTML= "";
+  renderMovies(popdata.results)
+}
+const fetchupcoming = async ()=>{
+  const url = constructUrl(`movie/upcoming`);
+  const res = await fetch(url);
+  const popdata = await res.json();
+  console.log(popdata.results)
+  CONTAINER.innerHTML= "";
+  renderMovies(popdata.results)
+}
+
+document.getElementById('popular').addEventListener('click',fetchpopuler);
+document.getElementById('relase').addEventListener('click',fetchnowplay);
+document.getElementById('rated').addEventListener('click',fetchrated);
+document.getElementById('upcoming').addEventListener('click',fetchupcoming);
+
+const fetchaction = async ()=>{
+  const url = constructUrl(`genre/movie/list`);
+  const res = await fetch(url);
+  const popdata = await res.json();
+  console.log(popdata.genres)
+  CONTAINER.innerHTML= "";
+  renderMovies(popdata.genres)
+}
+
+
+
+
+document.getElementById('action').addEventListener('click',fetchaction);
+document.getElementById('comedy').addEventListener('click',fetchupcoming);
+document.getElementById('sci').addEventListener('click',fetchupcoming);
+document.getElementById('romance').addEventListener('click',fetchupcoming);
+
+
+const fetchsearch = async (v)=>{
+  console.log(v)
+  let url = `"https://api.themoviedb.org/3/search/movie?api_key=542003918769df50083a13c415bbc602&query="${v}`;
+  const res = await fetch(url);
+  const popdata = await res.json();
+  console.log(popdata.results)
+  CONTAINER.innerHTML= "";
+  renderMovies(popdata.results)
+}
+document.querySelector('form').addEventListener('submit',(e)=>{
+  e.preventDefault;
+  fetchsearch(e.target.search.value);
+});
+
+
 
 // This function is to fetch movies. You may need to add it or change some part in it in order to apply some of the features.
 const fetchMovies = async () => {
@@ -54,6 +124,17 @@ const renderMovies = (movies) => {
   });
 };
 
+const renderlist = (movies) => {
+  movies.map((movie) => {
+    const movieDiv = document.createElement("div");
+    movieDiv.innerHTML = `
+        <h3>${movie.name}</h3>`;
+    movieDiv.addEventListener("click", () => {
+      movieDetails(movie);
+    });
+    CONTAINER.appendChild(movieDiv);
+  });
+};
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovie = (movie) => {
   CONTAINER.innerHTML = `
@@ -78,4 +159,5 @@ const renderMovie = (movie) => {
     </div>`;
 };
 
-document.addEventListener("DOMContentLoaded", autorun);
+document.addEventListener("DOMContentLoaded", autorun)
+
