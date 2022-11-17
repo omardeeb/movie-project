@@ -3,11 +3,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customBlack: "#0c0b00",
+        customBlack: "rgb(0,0,0)",
         customWhite: "#fcf7f7",
         customBlue: "#128bb5",
         customYellow: "#deb522",
-        customGray: "#1F1F1F",
+        customGray: "#121212",
       },
       height: {
         128: "32rem",

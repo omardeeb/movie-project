@@ -24,14 +24,15 @@ data.
 Add a universal navbar (it appears on every page) to the home page that includes
 buttons that go to the following pages:
 
-- Home button, takes you to the home page
-- Movies button that has a dropdown list to show different movie genres. For
+<!-- - Home button, takes you to the home page -->
+<!-- - Movies button that has a dropdown list to show different movie genres. For
   example: Action, Sci-Fi, Comedy ...etc, When you click one of them it should
-  load the movies for that genre.
-- Actor list page
+  load the movies for that genre. -->
+<!-- - Actor list page -->
+
 - About page that has a description of the website
-- Search box where you can type the movie or actor name and display the
-  related results.
+<!-- - Search box where you can type the movie or actor name and display the
+  related results. -->
 - A filter dropdown to filter the displayed movies in the home page, based
   on (popular, relase date, top rated, now playing and up coming)
 
@@ -69,9 +70,11 @@ totally complete, a few more features are needed:
 <!-- - The main 5 actors of the movies in the credit section -->
 <!-- - The movie language -->
 
-- A related movies section which includes at least five related movies
+<!-- - A related movies section which includes at least five related movies -->
+
     <!-- - A trailer section that has the movie trailer from youtube -->
     <!-- - The movie production company name and logo  -->
+
   <!-- - The director name -->
   <!-- - The movie rating and how many votes has it received -->
 

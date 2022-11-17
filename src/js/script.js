@@ -31,6 +31,15 @@ const fetchMovies = async () => {
   const res = await fetch(url);
   return res.json();
 };
+const fetchMoviesByGenres = async (genreId) => {
+  const url = constructUrl(`/discover/movie`) + `&with_genres=${genreId}`;
+  const res = await fetch(url);
+  return res.json();
+};
+const renderMoviesByGeners = async (genreId) => {
+  const result = await fetchMoviesByGenres(genreId);
+  renderMovies(result.results);
+};
 
 // Don't touch this function please. This function is to fetch one movie.
 const fetchMovie = async (movieId) => {
@@ -63,7 +72,7 @@ const numberFormatter = (num) => {
 
   // Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k";
 };
-const getCompanies = async (comapnies) => {
+const getCompanies = (comapnies) => {
   return comapnies.reduce((prev, curr, index) => {
     if (comapnies.length - 1 != index) {
       return prev + curr.name + " ,";
@@ -85,6 +94,51 @@ const fetchCredits = async (movieId) => {
   const url = constructUrl(`/movie/${movieId}/credits`);
   const res = await fetch(url);
   return res.json();
+};
+const fetchNowPlaying = async () => {
+  const url = constructUrl(`/movie/now_playing`);
+  const res = await fetch(url);
+  return res.json();
+};
+const renderNowPlaying = async () => {
+  const res = await fetchNowPlaying();
+  renderMovies(res.results);
+};
+const fetchPopular = async () => {
+  const url = constructUrl(`/movie/popular`);
+  const res = await fetch(url);
+  return res.json();
+};
+const renderPopular = async () => {
+  const res = await fetchPopular();
+  renderMovies(res.results);
+};
+const fetchTopRated = async () => {
+  const url = constructUrl(`/movie/top_rated`);
+  const res = await fetch(url);
+  return res.json();
+};
+const renderTopRated = async () => {
+  const res = await fetchTopRated();
+  renderMovies(res.results);
+};
+const fetchUpComing = async () => {
+  const url = constructUrl(`/movie/upcoming`);
+  const res = await fetch(url);
+  return res.json();
+};
+const renderUpComing = async () => {
+  const res = await fetchUpComing();
+  renderMovies(res.results);
+};
+const fetchActor = async (actorId) => {
+  const url = constructUrl(`/person/${actorId}`);
+  const res = await fetch(url);
+  return res.json();
+};
+const actorDetails = async (actorId) => {
+  const result = await fetchActor(actorId);
+  renderActor(result);
 };
 const getDirector = async (movieId) => {
   const results = await fetchCredits(movieId);
@@ -109,6 +163,164 @@ const getSimilarMovies = async (movieId) => {
   const movies = await fetchSimilarMovie(movieId);
   return movies.results;
 };
+const fetchActorMovies = async (actorId) => {
+  const url = constructUrl(`/person/${actorId}/movie_credits`);
+  const res = await fetch(url);
+  return res.json();
+};
+const getActorMovies = async (actorId) => {
+  const movies = await fetchActorMovies(actorId);
+  return actorsMoviesDivMaker(movies);
+};
+const fetchActors = async () => {
+  const url = constructUrl(`/person/popular`);
+  const res = await fetch(url);
+  return res.json();
+};
+const getLatestActors = async () => {
+  const actorsList = await fetchActors();
+  renderActors(actorsList.results);
+};
+const renderActors = async (actors) => {
+  const divForActors = document.createElement("div");
+  divForActors.classList.add(
+    "mt-5",
+    "gap-5",
+    "grid",
+    "grid-cols-2",
+    "sm:grid-cols-3",
+    "lg:grid-cols-4",
+    "xl:grid-cols-5",
+    "col-span-3"
+  );
+  actors.map((actor) => {
+    //get profile pic if its null replace it will profile icon image
+    const profilePic =
+      actor.profile_path != null
+        ? PROFILE_BASE_URL + actor.profile_path
+        : "images/profile.webp";
+
+    const divForActor = document.createElement("div");
+    divForActor.innerHTML = `
+    <div class="flex">
+        <img src="${profilePic}" alt="${actor.name} profile image" class="h-28 w-20 object-cover object-center rounded-md cursor-pointer" />
+    <div class="flex flex-col ml-2">
+        <div class="mt-5 cursor-pointer text-customYellow"><a href="#">${actor.name}<a/></div>
+      </div>
+    </div>`;
+    // actorDetails
+    divForActor.addEventListener("click", () => {
+      actorDetails(actor.id);
+    });
+    divForActors.appendChild(divForActor);
+  });
+  CONTAINER.innerHTML = "";
+  CONTAINER.appendChild(divForActors);
+};
+const actorsMoviesDivMaker = (movies) => {
+  const actorsMoviesDiv = document.createElement("div");
+  actorsMoviesDiv.setAttribute("id", "actorMovies");
+  actorsMoviesDiv.classList.add(
+    "flex",
+    "overflow-x-scroll",
+    "space-x-5",
+    "py-1",
+    "scroll-smooth",
+    "scrollbar-hide"
+  );
+  movies.cast.map((movie) => {
+    const actorMovieDiv = document.createElement("div");
+    actorMovieDiv.classList.add(
+      "shrink-0",
+      "w-64",
+      "group",
+      "hover:scale-95",
+      "transition"
+    );
+    let poster = "";
+    movie.poster_path !== null
+      ? (poster = BACKDROP_BASE_URL + movie.poster_path)
+      : (poster = "images/poster.jpg");
+    actorMovieDiv.innerHTML = `
+    <div class="relative">
+      <img src="${poster}" alt="" class="h-96 cursor-pointer" />
+      <div class="w-full h-full bg-transparent transition group-hover:bg-customBlack/20 top-0 left-0 absolute z-10 cursor-pointer"></iv>
+    </div>
+    <h1 class="mt-2 ml-1 text-lg cursor-pointer">${movie.title.slice(
+      0,
+      50
+    )}</h1>
+    <div class="text-customWhite flex items-center ml-1">
+        <i class="fa-solid fa-star ml-0.5 mr-1 text-xs text-customYellow"></i>${movie.vote_average.toFixed(
+          1
+        )} 
+        <div class="text-customBlue ml-3">${movie.release_date}</div>
+        </div>
+    `;
+    actorMovieDiv.addEventListener("click", () => {
+      movieDetails(movie);
+    });
+    actorsMoviesDiv.appendChild(actorMovieDiv);
+  });
+  return actorsMoviesDiv;
+};
+const renderActor = async (actor) => {
+  const actorsMovies = await getActorMovies(actor.id);
+  let deathday = "";
+  actor.deathday != null ? (deathday = actor.deathday) : (deathday = "Now");
+  CONTAINER.innerHTML = `
+    <div class="col-span-3 flex flex-col">
+      <div class="shrink-0 relative">
+        <img id="movie-backdrop" class="h-128 rounded-lg mx-auto shadow-md shadow-customYellow" src=${
+          PROFILE_BASE_URL + actor.profile_path
+        }>
+      </div>
+      <div class="space-y-2">
+        <h2 id="actor-name" class="text-3xl font-bold mt-5">
+        ${actor.name}
+        </h2>
+        <p id="actor-bio" class="">${actor.biography}</p>
+        <div class="border-b-2 border-customGray w-full"></div>
+        <p id="actor-birthday" class="text-customBlue"><b class="text-customWhite">Birthday:</b> ${
+          actor.birthday
+        } - ${deathday}</p> 
+        <div class="border-b-2 border-customGray w-full"></div>
+        <p id="actor-popularity" class="text-customBlue"><b class="text-customWhite">Popularity:</b> ${actor.popularity.toFixed(
+          1
+        )}</p> 
+        <div class="border-b-2 border-customGray w-full"></div>
+        <p id="actor-placeofbirth" class="text-customBlue"><b class="text-customWhite">Place of birth:</b> ${
+          actor.place_of_birth
+        }</p> 
+        <div class="border-b-2 border-customGray w-full"></div>
+        <p id="actor-knownFor" class="text-customBlue"><b class="text-customWhite">Known for:</b> ${
+          actor.known_for_department
+        }</p> 
+      </div>
+      <div class="flex items-center px-2 mt-10 mb-5 h-8 border-l-2 border-customYellow text-xl">Actor movies</div>
+      <div class="relative" id="actorsMoviesContainer">
+        <div id="moveLeft" class="absolute top-1/2 left-0 z-20 w-12 py-2 bg-gradient-to-r from-customBlack to-transparent -translate-y-16 flex items-center justify-start cursor-pointer hover:text-customYellow">
+          <i class="fa-solid fa-angle-left text-5xl"></i>
+        </div>
+        <div id="moveRight" class="absolute top-1/2 right-0 z-20 w-12 py-2 bg-gradient-to-l from-customBlack to-transparent -translate-y-16 flex items-center justify-end cursor-pointer hover:text-customYellow">
+          <i class="fa-solid fa-angle-right text-5xl"></i>
+        </div>
+      </div>
+    <div>
+  `;
+  const actorMoviesDiv = CONTAINER.querySelector("#actorsMoviesContainer");
+  actorMoviesDiv.appendChild(actorsMovies);
+  const scrollLeft = CONTAINER.querySelector("#moveLeft");
+  const scrollRight = CONTAINER.querySelector("#moveRight");
+  scrollLeft.addEventListener("click", () => {
+    const left = CONTAINER.querySelector("#actorMovies");
+    left.scrollBy(-1380, 0);
+  });
+  scrollRight.addEventListener("click", () => {
+    const right = CONTAINER.querySelector("#actorMovies");
+    right.scrollBy(1380, 0);
+  });
+};
 const similarMovieDivMaker = async (movieId) => {
   const movies = await getSimilarMovies(movieId);
   const divForMovies = document.createElement("div");
@@ -117,16 +329,27 @@ const similarMovieDivMaker = async (movieId) => {
     "flex",
     "overflow-x-scroll",
     "space-x-5",
-    "mt-10",
-    "py-2",
-    "px-5"
+    "py-1",
+    "scroll-smooth",
+    "scrollbar-hide"
   );
   movies.map((movie) => {
     const divForMovie = document.createElement("div");
-    divForMovie.classList.add("shrink-0", "w-64");
+    divForMovie.classList.add(
+      "shrink-0",
+      "w-64",
+      "group",
+      "hover:scale-95",
+      "transition"
+    );
     divForMovie.innerHTML = `
-    <img src="${BACKDROP_BASE_URL + movie.poster_path}" alt="" class="h-96" />
-    <h1 class="mt-2 ml-1 text-lg">${movie.title}</h1>
+    <div class="relative">
+      <img src="${
+        BACKDROP_BASE_URL + movie.poster_path
+      }" alt="" class="h-96 cursor-pointer" />
+      <div class="w-full h-full bg-transparent transition group-hover:bg-customBlack/20 top-0 left-0 absolute z-10 cursor-pointer"></iv>
+    </div>
+    <h1 class="mt-2 ml-1 text-lg cursor-pointer">${movie.title}</h1>
     <div class="text-customWhite flex items-center ml-1">
         <i class="fa-solid fa-star ml-0.5 mr-1 text-xs text-customYellow"></i>${movie.vote_average.toFixed(
           1
@@ -153,10 +376,12 @@ const actorsDivMaker = (actors) => {
     "xl:grid-cols-5"
   );
   actors.map((actor) => {
+    //get profile pic if its null replace it will profile icon image
     const profilePic =
       actor.profile_path != null
         ? PROFILE_BASE_URL + actor.profile_path
         : "images/profile.webp";
+
     const divForActor = document.createElement("div");
     divForActor.innerHTML = `
     <div class="flex">
@@ -173,12 +398,28 @@ const actorsDivMaker = (actors) => {
         )}</div>
       </div>
     </div>`;
+    // actorDetails
+    divForActor.addEventListener("click", () => {
+      actorDetails(actor.id);
+    });
     divForActors.appendChild(divForActor);
   });
   return divForActors;
 };
+const renderAboutUs = () => {
+  CONTAINER.innerHTML = `
+  <div class="col-span-3"> 
+      <div class="flex mx-auto text-center flex-col"> 
+      <p>RMDb (Recoded Movie Database) is an online database of information related to films. <br>
+      including cast, production crew and personal biographies.</p>
+      <img src="images/logo.png" class="h-64 w-auto mx-auto mt-5">
+      </div>
+  </div>
+  `;
+};
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovies = (movies) => {
+  CONTAINER.innerHTML = " ";
   movies.map((movie) => {
     const movieDiv = document.createElement("div");
     movieDiv.classList.add(
@@ -215,8 +456,8 @@ const renderMovies = (movies) => {
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovie = async (movie) => {
   const videoFrameLink = await videoDetailes(movie.id);
-  const companyNames = await getCompanies(movie.production_companies);
-  const genres = await getGenres(movie.genres);
+  const companyNames = getCompanies(movie.production_companies);
+  const genres = getGenres(movie.genres);
   const director = await getDirector(movie.id);
   const actors = await getActors(movie.id);
   const actorsDiv = actorsDivMaker(actors);
@@ -280,20 +521,21 @@ const renderMovie = async (movie) => {
         </div>
       </div>
       <div class="col-span-3">
-        <div class="flex items-center px-2 mt-5 h-8 border-l-2 border-customYellow text-xl">Top cast</div>
+        <div class="flex items-center px-2 mt-8 h-8 border-l-2 border-customYellow text-xl">Top cast</div>
         <div id="movie-actors" class=""></div>
-        <div class="relative pb-[56.25%] mt-10 w-full mx-auto">
+        <div class="flex items-center px-2 mt-8 mb-5 h-8 border-l-2 border-customYellow text-xl">Trailer</div>
+        <div class="relative pb-[56.25%] w-full mx-auto">
           <iframe src="${videoFrameLink}" class="absolute w-full h-full top-0 left-0 "
           frameborder="0"></iframe>
         </div>
-        <div id="similar-movies" class="relative px-5">
-        <div id="moveLeft" class="absolute top-0 left-0 z-10 ml-5 w-52 -translate-y-8 h-full bg-gradient-to-r from-customBlack to-transparent flex items-center justify-start">
-          <i class="fa-solid fa-angle-left text-5xl ml-5"></i>
+        <div class="flex items-center px-2 mt-10 mb-5 h-8 border-l-2 border-customYellow text-xl">More like this</div>
+        <div id="similar-movies" class="relative">
+        <div id="moveLeft" class="absolute top-1/2 left-0 z-20 w-12 py-2 bg-gradient-to-r from-customBlack to-transparent -translate-y-16 flex items-center justify-start cursor-pointer hover:text-customYellow">
+          <i class="fa-solid fa-angle-left text-5xl "></i>
         </div>
-        <div id="moveRight" class="absolute top-0 right-0 z-10 mr-5 w-52 -translate-y-8 h-full bg-gradient-to-l from-customBlack to-transparent flex items-center justify-end">
-          <i class="fa-solid fa-angle-right text-5xl mr-5"></i>
+        <div id="moveRight" class="absolute top-1/2 right-0 z-20 w-12 py-2 bg-gradient-to-l from-customBlack to-transparent -translate-y-16 flex items-center justify-end cursor-pointer hover:text-customYellow">
+          <i class="fa-solid fa-angle-right text-5xl "></i>
         </div>
-        
         </div>
       </div>`;
   const actordiv = CONTAINER.querySelector("#movie-actors");
@@ -304,12 +546,53 @@ const renderMovie = async (movie) => {
   const scrollRight = CONTAINER.querySelector("#moveRight");
   scrollLeft.addEventListener("click", () => {
     const left = CONTAINER.querySelector("#relatedMovies");
-    left.scrollBy(-276, 0);
+    left.scrollBy(-1380, 0);
   });
   scrollRight.addEventListener("click", () => {
     const right = CONTAINER.querySelector("#relatedMovies");
-    right.scrollBy(276, 0);
+    right.scrollBy(1380, 0);
   });
 };
 
-document.addEventListener("DOMContentLoaded", autorun);
+document.addEventListener("DOMContentLoaded", () => {
+  autorun();
+});
+
+const genre_btn = document.getElementById("movieGenresDropdown");
+const home = document.getElementById("home_btn");
+const actors_btn = document.getElementById("actors_btn");
+const now_playing = document.getElementById("now_playing");
+const populer = document.getElementById("populer");
+const topRated = document.getElementById("topRated");
+const upCaming = document.getElementById("upCaming");
+const menu_btn = document.getElementById("menu_btn");
+const aboutUs = document.getElementById("aboutUs");
+actors_btn.addEventListener("click", () => {
+  getLatestActors();
+});
+aboutUs.addEventListener("click", () => {
+  renderAboutUs();
+});
+genre_btn.addEventListener("click", async (e) => {
+  const genre_id = e.target.id;
+  renderMoviesByGeners(genre_id);
+});
+home.addEventListener("click", () => {
+  autorun();
+});
+now_playing.addEventListener("click", () => {
+  renderNowPlaying();
+});
+populer.addEventListener("click", () => {
+  renderPopular();
+});
+topRated.addEventListener("click", () => {
+  renderTopRated();
+});
+upCaming.addEventListener("click", () => {
+  renderUpComing();
+});
+const nav_menu = document.getElementById("nav_menu");
+menu_btn.addEventListener("click", () => {
+  nav_menu.classList.toggle("hidden");
+});
