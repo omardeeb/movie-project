@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/images/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/dist/output.css" rel="stylesheet" />
+    <title>Rmdb</title>
+  </head>
+  <body class="bg-customBlack font-roboto overflow-x-hidden max-w-7xl">
+    <nav class="bg-customGray py-2.5">
+      <div
+        class="flex flex-col lg:flex-row xl:container mx-auto px-5 md:px-10 items-center space-x-3"
+      >
+        <div class="flex space-x-3 flex-1 w-full lg:w-auto">
+          <img src="images/logo.png" alt="rmdb logo" class="h-8" />
+          <div class="h-8 rounded-md relative overflow-hidden flex-1">
+            <!-- <input
+              type="text"
+              class="w-full h-full focus:outline-none px-2"
+              placeholder="Search in RMDB"
+            /> -->
+            <div
+              class="flex items-center absolute top-1/2 right-2 -translate-y-1/2 text-gray-400"
+            >
+              <button id="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </div>
+          <div
+            class="flex lg:hidden items-center text-customWhite hover:bg-customWhite/10 h-8 px-5 rounded-md"
+            id="menu_btn"
+          >
+            <i class="fa-solid fa-bars text-lg"></i>
+            <span class="font-bold ml-1.5 mt-1">Menu</span>
+          </div>
+        </div>
+        <div
+          class="lg:flex space-y-2 w-full lg:w-auto lg:space-y-0 space-x-0 lg:space-x-5 mt-2 lg:mt-0"
+          id="nav_menu"
+        >
+          <div
+            class="text-customWhite h-8 flex items-center hover:bg-customWhite/10 px-5 rounded-md"
+          >
+            <button id="home_btn" class="flex items-center w-full h-full">
+              <i class="fa-solid fa-film text-customYellow"></i
+              ><span class="font-bold ml-2">Movies</span>
+            </button>
+          </div>
+          <div
+            class="text-customWhite h-8 flex items-center hover:bg-customWhite/10 px-5 rounded-md"
+          >
+            <button id="actors_btn" class="flex items-center w-full h-full">
+              <i class="fa-solid fa-user-group text-customYellow"></i
+              ><span class="font-bold ml-2">Actors</span>
+            </button>
+          </div>
+          <div
+            class="px-5 text-customWhite group h-8 hover:bg-customWhite/10 rounded-md relative text-center"
+          >
+            <button
+              id="dropdownDefault"
+              class="focus:outline-none flex items-center h-full w-full"
+              type="button"
+            >
+              <span class="font-bold mr-2">Movie Genres</span
+              ><i class="fa-solid fa-caret-down text-customYellow"></i>
+            </button>
+            <!-- Dropdown menu -->
+            <div
+              id="movieGenresDropdown"
+              class="hidden group-hover:block absolute left-0 top-8 z-30 bg-customGray rounded"
+            >
+              <ul class="py-1 text-sm">
+                <li class="hover:bg-customWhite/10 px-5 text-white">
+                  <button class="block py-2 px-4" type="button" id="28">
+                    Action
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="12">
+                    Adventure
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="35">
+                    Comedy
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="10749">
+                    Romance
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="99">
+                    Documentary
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="80">
+                    Crime
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="14">
+                    Fantasy
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="36">
+                    History
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="27">
+                    Horror
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="16">
+                    Animation
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="9648">
+                    Mystery
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="878">
+                    Science Fiction
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="px-5 text-customWhite group h-8 hover:bg-customWhite/10 rounded-md relative text-center"
+          >
+            <button
+              id="movieDropdown"
+              class="focus:outline-none flex items-center h-full w-full"
+              type="button"
+            >
+              <span class="font-bold mr-2">Movie Type</span
+              ><i class="fa-solid fa-caret-down text-customYellow"></i>
+            </button>
+            <!-- Dropdown menu -->
+            <div
+              id="dropdown"
+              class="hidden group-hover:block absolute left-0 top-8 z-30 bg-customGray rounded"
+            >
+              <ul class="py-1 text-sm">
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button
+                    class="py-2 px-2 block whitespace-nowrap"
+                    type="button"
+                    id="now_playing"
+                  >
+                    Now Playing
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="populer">
+                    Populer
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="topRated">
+                    top Rated
+                  </button>
+                </li>
+                <li class="hover:bg-customWhite/10 px-5">
+                  <button class="block py-2 px-4" type="button" id="upCaming">
+                    Up Caming
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="text-customWhite h-8 flex items-center hover:bg-customWhite/10 px-5 rounded-md"
+          >
+            <button id="aboutUs" class="flex items-center w-full h-full">
+              <i class="fa-solid fa-circle-info text-customYellow"></i
+              ><span class="font-bold ml-2">About Us</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div
+      class="content_container text-customWhite xl:container px-5 md:px-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mx-auto py-10"
+    ></div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.nav-link .active {
+  border-color: #deb522; /* Change this color to your desired active link color */
+}
